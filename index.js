@@ -439,17 +439,49 @@ function block(name, html) {
 }
 
 // bound to scripts Block in renderFile
-function script(path, type) {
+/**
+ * attributes param can be either a string (for backward compatibility)
+ * or an object of key value pairs 
+ *
+ * if a string value is used it will be used as a 'type' attribute
+ **/
+
+function script(path, attributes) {
   if (path) {
-    this.append('<script src="'+path+'"'+(type ? 'type="'+type+'"' : '')+'></script>');
+      var text = '<script src="'+path+'"';
+      if (typeof attributes == 'string') {
+        text += ' type="'+type+'"';
+      } else if (typeof attributes == 'object'){
+          for (var attr in attributes) {
+              text += ' ' + attr + '="' + attributes[attr] + '"';
+          }
+      }
+      text += '></script>';
+      this.append(text);
   }
   return this;
 }
 
 // bound to stylesheets Block in renderFile
-function stylesheet(path, media) {
+/**
+ * attributes param can be either a string (for backward compatibility)
+ * or an object of key value pairs 
+ *
+ *
+ * if a string value is used it will be used as a 'media' attribute
+ **/
+function stylesheet(path, attributes) {
   if (path) {
-    this.append('<link rel="stylesheet" href="'+path+'"'+(media ? 'media="'+media+'"' : '')+' />');
+      var text = '<link rel="stylesheet" href="';
+      if (typeof attributes == 'string') {
+        text += ' media="'+type+'"';
+      } else if (typeof attributes == 'object'){
+          for (var attr in attributes) {
+              text += ' ' + attr + '="' + attributes[attr] + '"';
+          }
+      }
+      text += '></script>';
+      this.append(text);
   }
   return this;
 }
